@@ -7,6 +7,10 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/editor.html');
+});
+
 app.post('/update', async (req, res) => {
     const { content } = req.body;
     const repo = 'PVNDA95/Cardapio-Digital';
