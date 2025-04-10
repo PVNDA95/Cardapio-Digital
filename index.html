@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de Cardápio</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333; padding: 20px; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .title { text-align: center; font-size: 2em; margin-bottom: 20px; }
+        textarea { width: 100%; height: 300px; margin-bottom: 20px; }
+        button { display: block; width: 100%; padding: 10px; background: #28a745; color: #fff; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Editor de Cardápio</h1>
+        <textarea id="editor"></textarea>
+        <button onclick="updateFile()">Salvar Alterações</button>
+    </div>
+    <script>
+        async function updateFile() {
+            const content = document.getElementById('editor').value;
+            const response = await fetch('/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ content })
+            });
+            if (response.ok) {
+                alert('Arquivo atualizado com sucesso!');
+            } else {
+                alert('Erro ao atualizar o arquivo.');
+            }
+        }
+    </script>
+</body>
+</html>
