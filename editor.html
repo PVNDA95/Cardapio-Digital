@@ -20,6 +20,18 @@
         <button onclick="updateFile()">Salvar Alterações</button>
     </div>
     <script>
+        // Função para carregar o conteúdo do index.html
+        async function loadFile() {
+            const response = await fetch('/index.html');
+            if (response.ok) {
+                const content = await response.text();
+                document.getElementById('editor').value = content;
+            } else {
+                alert('Erro ao carregar o arquivo.');
+            }
+        }
+
+        // Função para atualizar o conteúdo do index.html
         async function updateFile() {
             const content = document.getElementById('editor').value;
             const response = await fetch('/update', {
@@ -35,6 +47,9 @@
                 alert('Erro ao atualizar o arquivo.');
             }
         }
+
+        // Carregar o conteúdo do index.html ao abrir a página
+        window.onload = loadFile;
     </script>
 </body>
 </html>
