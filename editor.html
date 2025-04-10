@@ -66,7 +66,6 @@
         <button onclick="updateFile()">Salvar Alterações</button>
     </div>
     <script>
-        // Função para atualizar o conteúdo do index.html
         async function updateFile() {
             const items = document.querySelectorAll('.item');
             let content = '<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Cardápio Digital</title><style>body { font-family: Arial, sans-serif; background-color: #111; color: #fff; padding: 20px; } .container { max-width: 800px; margin: auto; } .title { text-align: center; font-size: 2em; margin-bottom: 20px; } .section { margin-bottom: 30px; } .item { background: #222; padding: 15px; margin-bottom: 10px; border-radius: 8px; } .item img { width: 100%; max-height: 200px; object-fit: cover; border-radius: 8px; } .item h3 { margin: 10px 0; } .price { font-weight: bold; color: #f39c12; }</style></head><body><div class="container"><h1 class="title">Cardápio</h1>';
@@ -86,32 +85,4 @@
             sides.forEach(side => {
                 const text = side.textContent.split('-')[0].trim();
                 const price = side.querySelector('.price').value;
-                content += `<li>${text} - <span class="price">${price}</span></li>`;
-            });
-            content += '</ul></div>';
-
-            const drinks = document.querySelectorAll('.section:nth-of-type(3) ul li');
-            content += '<div class="section"><h2>Bebidas</h2><ul>';
-            drinks.forEach(drink => {
-                const text = drink.textContent.split('-')[0].trim();
-                const price = drink.querySelector('.price').value;
-                content += `<li>${text} - <span class="price">${price}</span></li>`;
-            });
-            content += '</ul></div></div></body></html>';
-
-            const response = await fetch('/update', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ content })
-            });
-            if (response.ok) {
-                alert('Arquivo atualizado com sucesso!');
-            } else {
-                alert('Erro ao atualizar o arquivo.');
-            }
-        }
-    </script>
-</body>
-</html>
+                content += `<li
