@@ -85,4 +85,32 @@
             sides.forEach(side => {
                 const text = side.textContent.split('-')[0].trim();
                 const price = side.querySelector('.price').value;
-                content += `<li
+                content += `<li>${text} - <span class="price">${price}</span></li>`;
+            });
+            content += '</ul></div>';
+
+            const drinks = document.querySelectorAll('.section:nth-of-type(3) ul li');
+            content += '<div class="section"><h2>Bebidas</h2><ul>';
+            drinks.forEach(drink => {
+                const text = drink.textContent.split('-')[0].trim();
+                const price = drink.querySelector('.price').value;
+                content += `<li>${text} - <span class="price">${price}</span></li>`;
+            });
+            content += '</ul></div></div></body></html>';
+
+            const response = await fetch('/update', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ content })
+            });
+            if (response.ok) {
+                alert('Arquivo atualizado com sucesso!');
+            } else {
+                alert('Erro ao atualizar o arquivo.');
+            }
+        }
+    </script>
+</body>
+</html>
