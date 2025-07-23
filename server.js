@@ -1,20 +1,43 @@
+
 const express = require('express');
-const fs = require('fs');
+const venom = require('venom-bot');
+
 const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
-app.use(express.static('public')); // Serve arquivos estáticos, incluindo index.html
+let clientStarted = false;
 
-app.post('/update', (req, res) => {
-    const { content } = req.body;
-    fs.writeFile('public/index.html', content, (err) => {
-        if (err) {
-            return res.status(500).send('Erro ao atualizar o arquivo.');
+app.get('/api/start-bot', async (req, res) => {
+  if (clientStarted) {
+    return res.send('🤖 Bot já está em execução.');
+  }
+
+  venom
+    .create({
+      session: 'bot-api',
+      multidevice: true,
+      headless: true,
+      browserArgs: ['--no-sandbox']
+    })
+    .then((client) => {
+      client.onMessage(async (message) => {
+        if (!message.fromMe && !message.isGroupMsg) {
+          const texto = message.body.toLowerCase().trim();
+          if (['oi', 'olá', 'ola'].some(s => texto.includes(s))) {
+            await client.sendText(message.from, 'oi');
+          }
         }
-        res.send('Arquivo atualizado com sucesso!');
+      });
+      clientStarted = true;
+      console.log('🤖 Bot iniciado com sucesso.');
+    })
+    .catch((error) => {
+      console.error('❌ Erro ao iniciar bot:', error);
     });
+
+  res.send('✅ Bot sendo iniciado...');
 });
 
-app.listen(3000, () => {
-    console.log('Servidor rodando na porta 3000');
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor rodando na porta ${PORT}`);
 });
